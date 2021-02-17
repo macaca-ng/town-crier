@@ -108,7 +108,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 func startServer(channel chan string)  {
 	log.Println("server started")
 	http.HandleFunc("/webhook", handleWebhook)
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 
 }
 
