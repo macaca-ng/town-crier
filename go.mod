@@ -1,6 +1,6 @@
 module towncrier
 
-go 1.15
+go 1.15.8
 
 require (
 	github.com/bwmarrin/discordgo v0.23.2
