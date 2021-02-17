@@ -72,19 +72,19 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 
 	switch e := event.(type) {
 	case *github.PushEvent:
-		// fmt.Println(e.GetPusher().GetName())
-		// fmt.Println(e.GetSender().GetName())
-		// fmt.Println(e.GetRepo().GetFullName())
-		// fmt.Println(e.GetRef())
-		// for _, commit := range e.Commits {
-		// 	fmt.Println(commit.GetMessage())
-		// 	for _, modified := range commit.Modified {
-		// 		fmt.Println(modified)
-		// 	}
-		// } 
 
-		ch <- e.GetPusher().GetName()
+		for _, commit := range e.Commits {
+			fmt.Println(commit.GetMessage())
+			for _, modified := range commit.Modified {
+				fmt.Println(modified)
+			}
+		} 
 
+		pusher := e.GetPusher().GetName()
+		repo := e.GetRepo().GetFullName()
+		ref := e.GetRef()
+
+		ch <- pusher + " pushed to " + ref + " in the repo: " + repo
 		
 
 
