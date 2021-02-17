@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"github.com/google/go-github/github"
-
+	"github.com/joho/godotenv"
 
 	//"flag"
 	"os"
@@ -21,6 +21,8 @@ type GithubMessage struct {
 
 var (
 	ch chan string
+	// token string
+	// githubSecretKey string
 )
 
 func init() {
@@ -30,6 +32,16 @@ func init() {
 
 
 func main() {
+
+	err := godotenv.Load()
+  if err != nil {
+    log.Fatal("Error loading .env file")
+  }
+
+//   githubSecretKey := os.Getenv("GITHUB_TOKEN")
+//   token := os.Getenv("DISCORD_TOKEN")
+
+
 	ch := make(chan string, 10)
 
 	go startServer(ch)
@@ -50,7 +62,7 @@ func main() {
 
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
-	payload, err := github.ValidatePayload(r, []byte("your-secret-key"))
+	payload, err := github.ValidatePayload(r, []byte(os.Getenv("GITHUB_TOKEN")))
 	if err != nil {
 		log.Printf("error validating request body: err=%s\n", err)
 		return
@@ -107,10 +119,10 @@ func startServer(channel chan string)  {
 
 
 func makeBot(channel chan string)  {
-	Token := "sample-token"
+	
 	// Create a new Discord session using the provided bot token.
 	fmt.Println("Hello Discord")
-	dg, err := discordgo.New("Bot " + Token)
+	dg, err := discordgo.New("Bot " + os.Getenv("DISCORD_TOKEN"))
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
 		return
