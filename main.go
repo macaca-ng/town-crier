@@ -102,7 +102,7 @@ func startServer(channel chan string)  {
 }
 
 func makeBot(channel chan string)  {
-	Token := "NDcwNTc0OTcyMDU4OTkyNjUw.W1R_GA.I1fMLgdePEIjGKbbl8v4Yv-HuNE"
+	Token := "sample-token"
 	// Create a new Discord session using the provided bot token.
 	fmt.Println("Hello Discord")
 	dg, err := discordgo.New("Bot " + Token)
