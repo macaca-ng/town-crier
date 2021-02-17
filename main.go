@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"github.com/google/go-github/github"
-	"github.com/joho/godotenv"
 
 	//"flag"
 	"os"
@@ -33,10 +32,6 @@ func init() {
 
 func main() {
 
-	err := godotenv.Load()
-  if err != nil {
-    log.Fatal("Error loading .env file")
-  }
 
 //   githubSecretKey := os.Getenv("GITHUB_TOKEN")
 //   token := os.Getenv("DISCORD_TOKEN")
@@ -143,8 +138,8 @@ func makeBot(channel chan string)  {
 		return
 	}
 
-	dg.ChannelMessageSend("your-channel-id", "I don show!")
-	dg.ChannelMessageSend("your-channel-id", <-ch)
+	dg.ChannelMessageSend(os.Getenv("CHANNEL_ID"), "I don show!")
+	dg.ChannelMessageSend(os.Getenv("CHANNEL_ID"), <-ch)
 
 	fmt.Println(<-ch)
 
