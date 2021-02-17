@@ -105,6 +105,7 @@ func startServer(channel chan string)  {
 
 }
 
+
 func makeBot(channel chan string)  {
 	Token := "sample-token"
 	// Create a new Discord session using the provided bot token.
