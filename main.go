@@ -36,9 +36,13 @@ func main() {
 
 	go makeBot(ch)
 
-	for {
 
-	}
+	// Wait here until CTRL-C or other term signal is received.
+	fmt.Println("Press CTRL-C to exit.")
+	sc := make(chan os.Signal, 1)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+	<-sc
+	
 	
 
 }
@@ -126,15 +130,14 @@ func makeBot(channel chan string)  {
 		return
 	}
 
+	dg.ChannelMessageSend("your-channel-id", "I don show!")
 	dg.ChannelMessageSend("your-channel-id", <-ch)
 
 	fmt.Println(<-ch)
 
-	// Wait here until CTRL-C or other term signal is received.
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
-	<-sc
+
+	
 
 	// Cleanly close down the Discord session.
 	dg.Close()
