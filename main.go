@@ -72,19 +72,22 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 
 	switch e := event.(type) {
 	case *github.PushEvent:
-
+		
+		var commit_messages []string
 		for _, commit := range e.Commits {
 			fmt.Println(commit.GetMessage())
 			for _, modified := range commit.Modified {
 				fmt.Println(modified)
 			}
+			append(commit_array, commit.Message)
 		} 
 
 		pusher := e.GetPusher().GetName()
 		repo := e.GetRepo().GetFullName()
 		ref := e.GetRef()
+		
 
-		ch <- pusher + " pushed to " + ref + " in the repo: " + repo
+		ch <- pusher + " pushed to " + ref + " in the repo: " + repo + ". Messages: " + commit_messages
 		
 
 
@@ -101,7 +104,6 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 		}
 	default:
 		log.Printf("unknown event type %s\n", github.WebHookType(r))
-		return
 	}
 }
 
@@ -172,4 +174,3 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSend(m.ChannelID, "Ping!")
 	}
 }
-
