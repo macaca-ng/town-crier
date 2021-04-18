@@ -81,7 +81,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 			for _, modified := range commit.Modified {
 				fmt.Println(modified)
 			}
-			commit_messages = append(commit_messages, *commit.Message)
+			commit_messages = append(commit_messages, commit.GetMessage())
 		} 
 
 		pusher := e.GetPusher().GetName()
