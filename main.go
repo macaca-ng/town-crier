@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
+
 	"github.com/google/go-github/github"
 
 	//"flag"
@@ -79,7 +81,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 			for _, modified := range commit.Modified {
 				fmt.Println(modified)
 			}
-			append(commit_array, commit.Message)
+			commit_messages = append(commit_messages, *commit.Message)
 		} 
 
 		pusher := e.GetPusher().GetName()
@@ -87,7 +89,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 		ref := e.GetRef()
 		
 
-		ch <- pusher + " pushed to " + ref + " in the repo: " + repo + ". Messages: " + commit_messages
+		ch <- pusher + " pushed to " + ref + " in the repo: " + repo + ". Messages: " + strings.Join(commit_messages, ",")
 		
 
 
